@@ -6,7 +6,7 @@ const AppError = require('../utils/errors/app-error');
 async function signUp(req, res) {
     try {
 
-        const user = await UserService.createUser({
+        const user = await UserService.register({
             email: req.body.email,
             password: req.body.password,
         });

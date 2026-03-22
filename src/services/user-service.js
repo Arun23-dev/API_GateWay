@@ -5,7 +5,7 @@ const { Auth } = require('../utils/common')
 
 const userRepository = new UserRepository();
 
-async function createUser(data) {
+async function register(data) {
     try {
 
         const user = await userRepository.create(data);
@@ -48,7 +48,7 @@ async function signin(data) {
         throw new AppError("Something went wrong ", StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
-module.exports = { createUser, signin };
+module.exports = { register, signin };
 
 
 
