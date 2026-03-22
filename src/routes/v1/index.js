@@ -1,7 +1,6 @@
 const express=require('express');
 const router=express.Router();
 
-const  {InfoController}=require('../../controllers')
-
-router.get('/info',InfoController.info);
+const userRoutes=require('./user-routes');
+router.use('/signup',userRoutes)
 module.exports=router;
