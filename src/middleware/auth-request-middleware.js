@@ -1,6 +1,7 @@
 const { StatusCodes } = require('http-status-codes');
 const { ErrorResponse } = require('../utils/common');
 const AppError = require('../utils/errors/app-error');
+const { UserService } = require('../services');
 
 
 function validateAuthReq(req, res, next) {
@@ -21,5 +22,33 @@ function validateAuthReq(req, res, next) {
     }
     next();
 }
+async function checkAuth(req, res, next) {
+    try {
+        const authHeader = req.headers['authorization'];
+        const token =
+            req.headers['x-access-token'] ||
+            (authHeader && authHeader.split(' ')[1]);
 
-module.exports = { validateAuthReq, };
+        if (!token) {
+            throw new AppError('JWT token missing', 400);
+        }
+
+        const response = await UserService.isAuthenticated(token);
+
+        if (response) {
+            req.user = response;
+            next();
+        }
+
+        throw new AppError('Unauthorized', 401);
+
+    } catch (error) {
+        return res
+            .status(error.statusCode || 500)
+            .json({
+                message: error.message || 'Something went wrong'
+            });
+    }
+}
+
+module.exports = { validateAuthReq,checkAuth};
