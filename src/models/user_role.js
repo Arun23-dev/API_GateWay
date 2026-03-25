@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   User_Role.init({
-    user_id: {
+    UserId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'CASCADE', 
       onUpdate: 'CASCADE' 
     },
-    role_id: {
+    RoleId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
